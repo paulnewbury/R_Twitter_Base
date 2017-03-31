@@ -1,0 +1,5 @@
+server_name: localhost
+db_name : astockford_attrib
+db_host: staging2.cevhomzj8can.eu-west-1.rds.amazonaws.com
+db_user: radmin
+db_password: 1oxEr26uHu

@@ -1,0 +1,9 @@
+ansible_ssh_private_key_file: /home/vagrant/.ssh/aws_private_key
+ansible_ssh_user: ubuntu
+server_name: ec2-52-18-58-15.eu-west-1.compute.amazonaws.com #ec2-54-229-183-87.eu-west-1.compute.amazonaws.com
+db_name: attrib
+db_host: staging1-multidb3.cevhomzj8can.eu-west-1.rds.amazonaws.com
+db_user: radmin
+db_password: 1oxEr26uHu
+#db_user: root
+#db_password: Fu9ap6ec

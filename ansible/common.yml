@@ -1,0 +1,54 @@
+- include: r_cron.yml
+
+- name: install build-essential etc
+  apt: name={{item}} update_cache=yes
+  with_items:
+  - build-essential
+  - python-dev
+  - python-pip
+  - python-apt 
+  - ntp
+  
+- name: add cran public key
+  apt_key: keyserver=keyserver.ubuntu.com id=E084DAB9 state=present
+
+- name: add rstudio apt_repository
+  apt_repository: repo='deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' state=present
+
+- name: install r-base
+  apt: name=r-base update_cache=yes
+
+- name: install r devtools essentials
+  apt: name={{item}} update_cache=yes
+  with_items:
+  - libcurl4-gnutls-dev 
+  - libxml2-dev 
+  - libssl-dev
+  - libmysqlclient-dev
+  - r-cran-rcpp
+
+
+#- name: run install-packages
+#  command: Rscript install-packages.r chdir=/srv/rsrv
+
+- name: install python-mysql with python-pip
+  pip: name={{item}}
+  with_items:
+  - MySQL-python
+  - arrow
+  - click
+
+
+- name: Ensures /srv/rsrv/config dir exists
+  file: path=/srv/rsrv/config state=directory
+
+- name: create temp file for db config settings template
+  command: mktemp
+  register: temp_file
+
+- name: create db config file in temp location
+  template: src=dbconfig.j2 dest={{temp_file.stdout}}
+
+- name: move db config to real location
+  command: mv {{temp_file.stdout}} /srv/rsrv/config/dbconfig.ini
+

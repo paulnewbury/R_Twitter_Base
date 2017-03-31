@@ -1,0 +1,11 @@
+---
+- hosts: vagrant
+  connection: local
+  remote_user: vagrant
+  become: true
+  tasks:  
+  - name: include custom variables
+    include_vars: host_vars/vagrant.yml
+  # - name: configure nginx
+  #   template: src=nginx_vagrant.j2 dest=/etc/nginx/sites-enabled/livewall2_nginx.conf
+  - include: common.yml

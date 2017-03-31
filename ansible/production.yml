@@ -1,0 +1,44 @@
+---
+- hosts: vagrant
+  connection: local
+  tasks:
+    - name: ensure .ssh dir exists
+      file: >
+        path=/home/vagrant/.ssh
+        state=directory
+        mode=0700
+        owner=vagrant
+        group=vagrant
+    - name: copy private key file
+      copy: >
+        src=files/aws_private_key
+        dest=/home/vagrant/.ssh/aws_private_key
+        mode=0600
+        owner=vagrant
+        group=vagrant
+
+- hosts: production
+  remote_user: ubuntu
+  become: true
+  vars: 
+    ansible_ssh_private_key_file: /home/vagrant/.ssh/aws_private_key 
+  tasks:
+  - name: include custom variables
+    include_vars: host_vars/production.yml
+  #- name: configure nginx
+  #  template: src=nginx.j2 dest=/etc/nginx/sites-enabled/livewall2_nginx.conf
+  - name: ensure source dir exists
+    file: >
+      path=/srv/rsrv
+      state=directory
+      mode=0744
+      owner=ubuntu
+      group=ubuntu
+  - name: synchronize
+    synchronize: >
+      src=/vagrant/
+      dest=/srv/rsrv      
+      recursive=true
+      delete=true
+      checksum=true
+  - include: common.yml

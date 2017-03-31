@@ -1,0 +1,6 @@
+[vagrant]
+127.0.0.1
+
+[production]
+#ec2-54-229-183-87.eu-west-1.compute.amazonaws.com
+ec2-52-18-58-15.eu-west-1.compute.amazonaws.com

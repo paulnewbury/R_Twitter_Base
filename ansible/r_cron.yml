@@ -1,0 +1,9 @@
+# run the full model for yesterday at 10 past 1 am
+- name: run event weightings for yesterday (include past 30 days)
+  cron: name="event weightings" job="cd /srv/rsrv/; sudo python run_command.py --command='weighting/event_weighting.R'" hour=02 minute=10 state=absent
+
+# run this after AdWords update (6:10am)
+- name: run ppc_bid_adjuster_final for yesterday (include past 30 days)
+  cron: name="my test cron" job="cd /srv/rsrv/; sudo python run_ppc.py" hour=7 minute=10 state=absent
+
+
